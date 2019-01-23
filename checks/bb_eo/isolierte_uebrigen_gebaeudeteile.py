@@ -1,17 +1,11 @@
 # coding=utf-8
-from __future__ import print_function
 from collections import OrderedDict
 
 import sys
 import traceback
-from builtins import range, str
-from qgis.PyQt.QtCore import QObject, QSettings, QSizeF, Qt
-from qgis.PyQt.QtGui import QColor, QTextDocument
+from qgis.PyQt.QtCore import QSettings, Qt
 from qgis.PyQt.QtWidgets import QApplication
-from qgis.core import QgsFeature, QgsMapLayer, QgsMapLayerRegistry, QgsPoint, \
-    QgsProject, QgsRectangle
-from qgis.gui import QgsMessageBar, QgsTextAnnotationItem
-from qgis.core import QgsDataSourceURI, QgsVectorLayer
+from qgis.core import QgsProject, Qgis
 
 from veriso.base.utils.loadlayer import LoadLayer
 from veriso.modules.complexcheck_base import ComplexCheckBase
@@ -61,17 +55,22 @@ class ComplexCheck(ComplexCheckBase):
             locale = "de"
 
         if not project_id:
-            self.message_bar.pushCritical("Error", _translate("Isolierte Uebrigen Gebaeudeteile", "project_id not set", None))
+            self.message_bar.pushCritical(
+                "Error", _translate("Isolierte Uebrigen Gebaeudeteile",
+                                    "project_id not set", None))
             return
 
         QApplication.setOverrideCursor(Qt.WaitCursor)
         try:
-            group = _translate("Veribe", "Isolierte_Uebrigen_Gebaeudeteile", None)
+            group = _translate("Veribe", "Isolierte_Uebrigen_Gebaeudeteile",
+                               None)
             group += " (" + str(project_id) + ")"
 
             layer = {
                 "type": "postgres",
-                "title": _translate("Veribe", "Isolierte Uebrigen Gebaeudeteile Flachen", None),
+                "title": _translate("Veribe",
+                                    "Isolierte Uebrigen Gebaeudeteile Flachen",
+                                    None),
                 "featuretype": "v_uebriger_gebaeudeteil_isolierte_flaeche",
                 "geom": "geometrie", "key": "ogc_fid", "sql": "",
                 "readonly": True, "group": group,
@@ -81,7 +80,9 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {
                 "type": "postgres",
-                "title": _translate("Veribe", "Isolierte Uebrigen Gebaeudeteile Linien", None),
+                "title": _translate("Veribe",
+                                    "Isolierte Uebrigen Gebaeudeteile Linien",
+                                    None),
                 "featuretype": "v_uebriger_gebaeudeteil_isolierte_linien",
                 "geom": "geometrie", "key": "ogc_fid", "sql": "",
                 "readonly": True, "group": group,
@@ -91,7 +92,9 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {
                 "type": "postgres",
-                "title": _translate("Veribe", "Isolierte Uebrigen Gebaeudeteile Punkte", None),
+                "title": _translate("Veribe",
+                                    "Isolierte Uebrigen Gebaeudeteile Punkte",
+                                    None),
                 "featuretype": "v_uebriger_gebaeudeteil_isolierte_punkte",
                 "geom": "geometrie", "key": "ogc_fid", "sql": "",
                 "readonly": True, "group": group,
@@ -104,13 +107,13 @@ class ComplexCheck(ComplexCheckBase):
             # method:
             # load(layer, visibility=True, collapsed_legend=False,
             # collapsed_group=False)
-            #vlayer = self.layer_loader.load(layer)
+            # vlayer = self.layer_loader.load(layer)
 
         except Exception:
             QApplication.restoreOverrideCursor()
             exc_type, exc_value, exc_traceback = sys.exc_info()
             self.message_bar.pushMessage("Error", str(
-                    traceback.format_exc(exc_traceback)),
-                                         level=QgsMessageBar.CRITICAL,
-                                         duration=0)
+                traceback.format_exc(exc_traceback)),
+                level=Qgis.Critical,
+                duration=0)
         QApplication.restoreOverrideCursor()

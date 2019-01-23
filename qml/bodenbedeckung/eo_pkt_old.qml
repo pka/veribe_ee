@@ -59,7 +59,7 @@
           <prop k="angle" v="0"/>
           <prop k="color" v="#000000"/>
           <prop k="horizontal_anchor_point" v="1"/>
-          <prop k="name" v="grundbuchplan/symbol_k_denkmal.svg"/>
+          <prop k="name" v="av/grundbuchplan/symbol_k_denkmal.svg"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
@@ -79,7 +79,7 @@
           <prop k="angle" v="0"/>
           <prop k="color" v="#000000"/>
           <prop k="horizontal_anchor_point" v="1"/>
-          <prop k="name" v="grundbuchplan/symbol_i_quelle_wasseraustritt.svg"/>
+          <prop k="name" v="av/grundbuchplan/symbol_i_quelle_wasseraustritt.svg"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
@@ -99,7 +99,7 @@
           <prop k="angle" v="0"/>
           <prop k="color" v="#000000"/>
           <prop k="horizontal_anchor_point" v="1"/>
-          <prop k="name" v="grundbuchplan/symbol_g_einzelner_fels.svg"/>
+          <prop k="name" v="av/grundbuchplan/symbol_g_einzelner_fels.svg"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
@@ -119,7 +119,7 @@
           <prop k="angle" v="0"/>
           <prop k="color" v="#000000"/>
           <prop k="horizontal_anchor_point" v="1"/>
-          <prop k="name" v="grundbuchplan/symbol_h_mast_antenne.svg"/>
+          <prop k="name" v="av/grundbuchplan/symbol_h_mast_antenne.svg"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
@@ -139,7 +139,7 @@
           <prop k="angle" v="0"/>
           <prop k="color" v="#000000"/>
           <prop k="horizontal_anchor_point" v="1"/>
-          <prop k="name" v="grundbuchplan/symbol_p_aussichtsturm.svg"/>
+          <prop k="name" v="av/grundbuchplan/symbol_p_aussichtsturm.svg"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
@@ -159,7 +159,7 @@
           <prop k="angle" v="0"/>
           <prop k="color" v="#000000"/>
           <prop k="horizontal_anchor_point" v="1"/>
-          <prop k="name" v="grundbuchplan/symbol_o_wichtiger_einzelbaum.svg"/>
+          <prop k="name" v="av/grundbuchplan/symbol_o_wichtiger_einzelbaum.svg"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>
@@ -179,7 +179,7 @@
           <prop k="angle" v="0"/>
           <prop k="color" v="#000000"/>
           <prop k="horizontal_anchor_point" v="1"/>
-          <prop k="name" v="grundbuchplan/symbol_q_bezugspunkt.svg"/>
+          <prop k="name" v="av/grundbuchplan/symbol_q_bezugspunkt.svg"/>
           <prop k="offset" v="0,0"/>
           <prop k="offset_map_unit_scale" v="0,0"/>
           <prop k="offset_unit" v="MM"/>

@@ -1,22 +1,18 @@
  # -*- coding: utf-8 -*-
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+from qgis.PyQt.QtCore import *
+from qgis.PyQt.QtGui import *
+from qgis.PyQt.QtWidgets import *
 from qgis.core import *
 from qgis.gui import *
 
 import sys
 import traceback
 
-
-try:
-    _encoding = QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QApplication.translate(context, text, disambig)
-
 from veriso.modules.complexcheck_base import ComplexCheckBase
+
+
+def _translate(context, text, disambig):
+    return QApplication.translate(context, text, disambig)
 
 
 class ComplexCheck(ComplexCheckBase):
@@ -24,18 +20,22 @@ class ComplexCheck(ComplexCheckBase):
     def __init__(self, iface):
         super(ComplexCheck, self).__init__(iface)
         self.iface = iface
-        
-        self.root = QgsProject.instance().layerTreeRoot()        
+
+        self.root = QgsProject.instance().layerTreeRoot()
 
     def run(self):
-        self.settings = QSettings("CatAIS","VeriSO")
+        self.settings = QSettings("CatAIS", "VeriSO")
         project_id = self.settings.value("project/id")
         epsg = self.settings.value("project/epsg")
 
-        locale = QSettings().value('locale/userLocale')[0:2] # Für Multilingual-Legenden.
+        locale = QSettings().value('locale/userLocale')[0:2]  # Für Multilingual-Legenden.
 
         if not project_id:
-            self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_gruda", "project_id not set", None), level=QgsMessageBar.CRITICAL, duration=5)
+            self.iface.messageBar().pushMessage(
+                "Error",
+                _translate("VeriSO_EE_gruda",
+                           "project_id not set", None),
+                level=Qgis.Critical, duration=5)
             return
 
         QApplication.setOverrideCursor(Qt.WaitCursor)
@@ -57,7 +57,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","Bodenbedeckung", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "Bodenbedeckung", None)
             layer["readonly"] = True
             layer["featuretype"] = "bodenbedeckung_boflaeche"
             layer["key"] = "ogc_fid"
@@ -69,7 +70,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","BEGID (BB)", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "BEGID (BB)", None)
             layer["readonly"] = True
             layer["featuretype"] = "z_gebaeudenummer_pos"
             layer["key"] = "ogc_fid"
@@ -81,7 +83,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","BEGID (EO)", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "BEGID (EO)", None)
             layer["readonly"] = True
             layer["featuretype"] = "z_objektnummer_pos"
             layer["key"] = "ogc_fid"
@@ -93,7 +96,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","Plangeometrie", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "Plangeometrie", None)
             layer["readonly"] = True
             layer["featuretype"] = "planeinteilungen_plan_v"
             layer["geom"] = "geometrie"
@@ -105,7 +109,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","Flurnamen", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "Flurnamen", None)
             layer["readonly"] = True
             layer["featuretype"] = "nomenklatur_flurname"
             layer["geom"] = "geometrie"
@@ -117,7 +122,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","PlanPos", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "PlanPos", None)
             layer["readonly"] = True
             layer["featuretype"] = "planeinteilungen_plan_v"
             layer["geom"] = "geometrie"
@@ -129,7 +135,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","Gemeindegrenze", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "Gemeindegrenze", None)
             layer["readonly"] = True
             layer["featuretype"] = "gemeindegrenzen_gemeindegrenze"
             layer["geom"] = "geometrie"
@@ -141,7 +148,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","Grundstueck", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "Grundstueck", None)
             layer["readonly"] = True
             layer["featuretype"] = "liegenschaften_grundstueck"
             layer["key"] = "ogc_fid"
@@ -151,7 +159,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","proj. SDR", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "proj. SDR", None)
             layer["readonly"] = True
             layer["featuretype"] = "liegenschaften_projselbstrecht"
             layer["geom"] = "geometrie"
@@ -163,7 +172,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","SDR", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "SDR", None)
             layer["readonly"] = True
             layer["featuretype"] = "liegenschaften_selbstrecht"
             layer["geom"] = "geometrie"
@@ -175,7 +185,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","proj. Liegenschaften", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "proj. Liegenschaften", None)
             layer["readonly"] = True
             layer["featuretype"] = "liegenschaften_projliegenschaft"
             layer["geom"] = "geometrie"
@@ -187,7 +198,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","Liegenschaften", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "Liegenschaften", None)
             layer["readonly"] = True
             layer["featuretype"] = "liegenschaften_liegenschaft"
             layer["geom"] = "geometrie"
@@ -199,7 +211,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","Hilfslinie", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "Hilfslinie", None)
             layer["readonly"] = True
             layer["featuretype"] = "liegenschaften_grundstueckpos"
             layer["geom"] = "hilfslinie"
@@ -211,7 +224,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","proj_Grst-Nr", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "proj_Grst-Nr", None)
             layer["readonly"] = True
             layer["featuretype"] = "z_projgs_nr"
             layer["geom"] = "pos"
@@ -223,7 +237,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","Nr Gs(LS)", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "Nr Gs(LS)", None)
             layer["readonly"] = True
             layer["featuretype"] = "z_nr_gs"
             layer["geom"] = "pos"
@@ -235,7 +250,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","Nr Gs(SDR)", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "Nr Gs(SDR)", None)
             layer["readonly"] = True
             layer["featuretype"] = "z_nr_gs"
             layer["geom"] = "pos"
@@ -247,7 +263,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","Nr Gs(LS-Teil)", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "Nr Gs(LS-Teil)", None)
             layer["readonly"] = True
             layer["featuretype"] = "z_nr_gs"
             layer["geom"] = "pos"
@@ -259,7 +276,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","Nr Gs(SDR Teil)", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "Nr Gs(SDR Teil)", None)
             layer["readonly"] = True
             layer["featuretype"] = "z_nr_gs"
             layer["geom"] = "pos"
@@ -271,7 +289,9 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] =  _translate("VeriSO_EE_gruda", u"unvollständige Liegenschaften", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        u"unvollständige Liegenschaften",
+                                        None)
             layer["readonly"] = True
             layer["featuretype"] = "liegenschaften_liegenschaft_v2"
             layer["geom"] = "geometrie"
@@ -283,7 +303,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","streitige SDR", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "streitige SDR", None)
             layer["readonly"] = True
             layer["featuretype"] = "liegenschaften_selbstrecht_v"
             layer["geom"] = "geometrie"
@@ -295,7 +316,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] =  _translate("VeriSO_EE_gruda",u"unvollständige SDR", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        u"unvollständige SDR", None)
             layer["readonly"] = True
             layer["featuretype"] = "liegenschaften_selbstrecht_v"
             layer["geom"] = "geometrie"
@@ -307,7 +329,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","streitige Liegenschaften", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "streitige Liegenschaften", None)
             layer["readonly"] = True
             layer["featuretype"] = "liegenschaften_liegenschaft_v2"
             layer["geom"] = "geometrie"
@@ -319,7 +342,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","PLZ", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "PLZ", None)
             layer["readonly"] = True
             layer["featuretype"] = "plzortschaft_plz6"
             layer["geom"] = "flaeche"
@@ -331,7 +355,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","Ortschaften", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "Ortschaften", None)
             layer["readonly"] = True
             layer["featuretype"] = "z_ortschaftsnamen_geom"
             layer["geom"] = "flaeche"
@@ -343,7 +368,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","benanntes Gebiet", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "benanntes Gebiet", None)
             layer["readonly"] = True
             layer["featuretype"] = "gebaeudeadressen_benanntesgebiet"
             layer["geom"] = "flaeche"
@@ -355,7 +381,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","proj. Gebaeude", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "proj. Gebaeude", None)
             layer["readonly"] = True
             layer["featuretype"] = "bodenbedeckung_projboflaeche"
             layer["geom"] = "geometrie"
@@ -367,19 +394,21 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","adressierbare EOs", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "adressierbare EOs", None)
             layer["readonly"] = True
             layer["featuretype"] = "z_eo_flaeche"
             layer["geom"] = "geometrie"
             layer["key"] = "ctid"
-            layer["sql"] = "art in (1,2,6,9,11,16,21)"
+            layer["sql"] = "art in (1,2,6,11)"
             layer["group"] = group4
             layer["style"] = "gebaeudeadressen/EO_Gebaeude.qml"
             vlayerEO = self.layer_loader.load(layer)
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","Strassenstueck Anfangspunkt", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "Strassenstueck Anfangspunkt", None)
             layer["readonly"] = True
             layer["featuretype"] = "gebaeudeadressen_strassenstueck"
             layer["geom"] = "anfangspunkt"
@@ -391,7 +420,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","Strassenstueck (Geometrie)", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "Strassenstueck (Geometrie)", None)
             layer["readonly"] = True
             layer["featuretype"] = "gebaeudeadressen_strassenstueck"
             layer["geom"] = "geometrie"
@@ -403,7 +433,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","Spinnennetz", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "Spinnennetz", None)
             layer["readonly"] = True
             layer["featuretype"] = "t_gebaeudeadressen_spinnennetz"
             layer["geom"] = "line"
@@ -415,7 +446,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","Gebaeudeeingang BB/EO", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "Gebaeudeeingang BB/EO", None)
             layer["readonly"] = True
             layer["featuretype"] = "gebaeudeadressen_gebaeudeeingang"
             layer["geom"] = "lage"
@@ -427,7 +459,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","LokalisationsNamePos", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "LokalisationsNamePos", None)
             layer["readonly"] = True
             layer["featuretype"] = "gebaeudeadressen_lokalisationsnamepos_v"
             layer["geom"] = "pos"
@@ -439,7 +472,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","LFP2", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "LFP2", None)
             layer["readonly"] = True
             layer["featuretype"] = "fixpunktekatgrie2_lfp2"
             layer["geom"] = "geometrie"
@@ -451,7 +485,8 @@ class ComplexCheck(ComplexCheckBase):
 
             layer = {}
             layer["type"] = "postgres"
-            layer["title"] = _translate("VeriSO_EE_gruda","LFP1", None)
+            layer["title"] = _translate("VeriSO_EE_gruda",
+                                        "LFP1", None)
             layer["readonly"] = True
             layer["featuretype"] = "fixpunktekatgrie1_lfp1"
             layer["geom"] = "geometrie"
@@ -462,7 +497,9 @@ class ComplexCheck(ComplexCheckBase):
             vlayerLFP1 = self.layer_loader.load(layer)
 
         except Exception:
-            QApplication.restoreOverrideCursor()            
+            QApplication.restoreOverrideCursor()
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            self.iface.messageBar().pushMessage("Error", str(traceback.format_exc(exc_traceback)), level=QgsMessageBar.CRITICAL, duration=5)
+            self.iface.messageBar().pushMessage(
+                "Error", str(traceback.format_exc(exc_traceback)),
+                level=Qgis.Critical, duration=5)
         QApplication.restoreOverrideCursor()

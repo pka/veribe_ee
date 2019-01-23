@@ -8,7 +8,7 @@ CREATE TABLE "postprocessing" (
 	apply INTEGER DEFAULT 1,
 	PRIMARY KEY(ogc_fid)
 );
-INSERT INTO `postprocessing` VALUES (1,'CREATE TYPE $$DBSCHEMA.maengel_topic AS ENUM
+INSERT INTO `postprocessing` (ogc_fid,sql_query,order,comment,lang,apply) VALUES (1,'CREATE TYPE $$DBSCHEMA.maengel_topic AS ENUM
 (
  ''Bodenbedeckung'',
  ''Einzelobjekte''
@@ -1123,42 +1123,31 @@ SELECT DISTINCT b.ogc_fid,b.geometrie
   WHERE st_touches(b.geometrie, liegenschaften_projselbstrecht.geometrie) IS TRUE
 );',3,'Was in table inserts',NULL,1),
  (81,'INSERT INTO $$DBSCHEMA.z_v_bb_ls (bb_ogc_fid,bb_qualitaet,bb_qualitaet_txt,art,art_txt,ls_ogc_fid,liegenschaft_von,nummerteilgrundstueck,flaechenmass,geometrie,flaeche,ls_flaeche)
-WITH 
-    bbed AS 
-    (
-    SELECT ST_MakeValid(bodenbedeckung_boflaeche.geometrie) AS val_geom, *
-    FROM $$DBSCHEMA.bodenbedeckung_boflaeche
-    ),
 
-    lieg AS 
-    (
-    SELECT ST_MakeValid(liegenschaften_liegenschaft.geometrie) AS val_geom, *
-    FROM $$DBSCHEMA.liegenschaften_liegenschaft
-    ),
-
-    foo AS 
-    (
-    SELECT 
-      bodenbedeckung_boflaeche.ogc_fid AS bb_ogc_fid,
-      bodenbedeckung_boflaeche.qualitaet AS bb_qualitaet,
-      bodenbedeckung_boflaeche.qualitaet_txt AS bb_qualitaet_txt,
-      bodenbedeckung_boflaeche.art,
-      bodenbedeckung_boflaeche.art_txt,
-      liegenschaften_liegenschaft.ogc_fid AS ls_ogc_fid,
-      liegenschaften_liegenschaft.liegenschaft_von,
-      liegenschaften_liegenschaft.nummerteilgrundstueck,
-      liegenschaften_liegenschaft.flaechenmass,
-      ST_Multi(ST_CollectionExtract(ST_intersection(bodenbedeckung_boflaeche.val_geom,liegenschaften_liegenschaft.val_geom),3)) AS geometrie,
-      ST_area (ST_intersection(bodenbedeckung_boflaeche.val_geom,liegenschaften_liegenschaft.val_geom)) AS flaeche,
-      ST_area (liegenschaften_liegenschaft.val_geom) AS ls_flaeche
-    FROM
-      bbed AS bodenbedeckung_boflaeche,
-      lieg AS liegenschaften_liegenschaft
-    WHERE ST_intersects(bodenbedeckung_boflaeche.val_geom,liegenschaften_liegenschaft.val_geom)=true
-     )
-
-    SELECT * FROM foo
-    WHERE (geometrytype(geometrie) = ''POLYGON'' OR geometrytype(geometrie) = ''MULTIPOLYGON'') AND NOT ST_IsEmpty(geometrie)',3,'Was in table inserts',NULL,1),
+SELECT *
+FROM
+(
+SELECT
+  bodenbedeckung_boflaeche.ogc_fid as bb_ogc_fid,
+  bodenbedeckung_boflaeche.qualitaet as bb_qualitaet,
+  bodenbedeckung_boflaeche.qualitaet_txt as bb_qualitaet_txt,
+  bodenbedeckung_boflaeche.art,
+  bodenbedeckung_boflaeche.art_txt,
+  liegenschaften_liegenschaft.ogc_fid as ls_ogc_fid,
+  liegenschaften_liegenschaft.liegenschaft_von,
+  liegenschaften_liegenschaft.nummerteilgrundstueck,
+  liegenschaften_liegenschaft.flaechenmass,
+  ST_Multi(ST_CollectionExtract(ST_intersection(ST_MakeValid(bodenbedeckung_boflaeche.geometrie),ST_MakeValid(liegenschaften_liegenschaft.geometrie)),3)) as geometrie,
+  ST_area (ST_intersection(ST_MakeValid(bodenbedeckung_boflaeche.geometrie),ST_MakeValid(liegenschaften_liegenschaft.geometrie))) as flaeche,
+ST_area (ST_MakeValid(liegenschaften_liegenschaft.geometrie)) as ls_flaeche
+FROM
+  $$DBSCHEMA.bodenbedeckung_boflaeche,
+  $$DBSCHEMA.liegenschaften_liegenschaft
+WHERE
+  ST_intersects(ST_MakeValid(bodenbedeckung_boflaeche.geometrie),ST_MakeValid(liegenschaften_liegenschaft.geometrie))=true --and
+  --geometrytype(ST_intersection(bodenbedeckung_boflaeche.geometrie,liegenschaften_liegenschaft.geometrie)) = ''POLYGON''
+ ) as foo
+ WHERE (geometrytype(geometrie) = ''POLYGON'' OR geometrytype(geometrie) = ''MULTIPOLYGON'') AND NOT ST_IsEmpty(geometrie)',3,'Was in table inserts',NULL,1),
  (82,'INSERT INTO $$DBSCHEMA.z_ls_entstehung (ls_ogc_fid, geometrie,nummer, entstehung)
 SELECT ls.ogc_fid, ls.geometrie,
 gs.nummer, gs.entstehung
@@ -1183,19 +1172,11 @@ SELECT t_ili_tid, selbstrecht_von, nummerteilgrundstueck, geometrie,
        flaechenmass, st_area(geometrie) as flaeche, qualitaet, qualitaet_txt
   FROM $$DBSCHEMA.liegenschaften_selbstrecht',3,'Was in table inserts',NULL,1),
  (86,'INSERT INTO $$DBSCHEMA.z_hgp_ls_linie (ogc_fid, geometrie)
-SELECT
-  hgp.ogc_fid,
-  hgp.geometrie
-FROM
-$$DBSCHEMA.gemeindegrenzen_hoheitsgrenzpunkt AS hgp,
-(
- SELECT
-  ST_Union(geometrie) as geometrie
- FROM
-  $$DBSCHEMA.gemeindegrenzen_gemeindegrenze
-) AS gemgre
-WHERE
-  ST_Touches(hgp.geometrie, gemgre.geometrie) = False',3,'Was in table inserts',NULL,1),
+select * from(
+SELECT DISTINCT
+ gemeindegrenzen_hoheitsgrenzpunkt.ogc_fid,  st_CollectionExtract(gemeindegrenzen_hoheitsgrenzpunkt.geometrie,1) as geometrie
+ FROM $$DBSCHEMA.gemeindegrenzen_gemeindegrenze, $$DBSCHEMA.gemeindegrenzen_hoheitsgrenzpunkt
+ WHERE st_touches(gemeindegrenzen_gemeindegrenze.geometrie, gemeindegrenzen_hoheitsgrenzpunkt.geometrie) IS False) as foo where geometrytype(geometrie) = ''POINT''',3,'Was in table inserts',NULL,1),
  (87,'INSERT INTO $$DBSCHEMA.z_v_ls_nk (ls_fid,nk_fid,geometrie,flaeche)
 SELECT *
 FROM
@@ -1423,30 +1404,30 @@ CREATE TYPE $$DBSCHEMA.avor_bezeichnung AS ENUM
 (
 ''0-PNF1: In PNF1 beurteilt und entschieden nicht zu bearbeiten'',
 ''1-Waldgrenzen: Kontrolle und Beurteilung'',
-''2-Uebr. best. Flaeche entlang Baeche, Bahn, Autobahn bereinigen'',
+''2-Übr. best. Fläche entlang Bäche, Bahn, Autobahn bereinigen'',
 ''3-Wytweiden: Definition durch Waldabteilung'',
-''4-Schmale bestockte Flaeche ab Bodenbedeckung in Eo uebernehmen'',
-''5-Schmale bestockte Flaeche loeschen'',
+''4-Schmale bestockte Fläche ab Bodenbedeckung in Eo übernehmen'',
+''5-Schmale bestockte Fläche löschen'',
 ''6-Wanderwege: wenn fehlend, als Achse in Einzelobjekte erfassen'',
-''7-Wege in Landswirtschaftszone gemaess Handbuch'',
+''7-Wege in Landswirtschaftszone gemäss Handbuch'',
 ''8-GNBE: Kontrolle, fehlende erfassen, Name attributieren, ...'',
-''9-Fluesse und Seen: Bodenbedeckung nach Prinzip LWN anpassen'',
-''10-Hochwasserdamm darstellen od. loeschen'',
-''11-Bauernhof: Gartenanlage od. uebrig befestigt anpassen'',
+''9-Flüsse und Seen: Bodenbedeckung nach Prinzip LWN anpassen'',
+''10-Hochwasserdamm darstellen od. löschen'',
+''11-Bauernhof: Gartenanlage od. übrig befestigt anpassen'',
 ''12-Bauernhof: durchgehenden Weg erfassen'',
-''13-Erfassung und/oder Ergaenzungen von Gebaeudeerschliessungen'',
-''14-Erfassung und/oder Ergaenzung von grossen Parkplaetzen'',
-''15-Erfassung und/oder Ergaenzung von uebrig befestigen Flaechen'',
+''13-Erfassung und/oder Ergänzungen von Gebäudeerschliessungen'',
+''14-Erfassung und/oder Ergänzung von grossen Parkplätzen'',
+''15-Erfassung und/oder Ergänzung von übrig befestigen Flächen'',
 ''16-Bahnhof / Station: Bahnsteig erfassen'',
 ''17-Bereinigung an Gemeinde- oder Losgrenzen (Differenzen zu BB)'',
-''18-Einzelobjekte: Bereinigung gemaess Handbuch'',
-''19-Loeschen von ueberfluessigen Bodenbedeckungsgrenzen'',
-''20-neue BB ausscheiden, BB Art aendern, BB Abgrenzung anpassen'',
-''21-fehlendes Silo / Wasserbecken / Gebaeude etc.'',
-''22-fehl. Bruecke / Mast / schm. Weg / eing. Gewaesser / Tunnel'',
-''23-Gebaeude vorhanden / unterirdisch?'',
-''24-Bodenbedeckung loeschen'',
-''25-Einzelobjekt loeschen'',
+''18-Einzelobjekte: Bereinigung gemäss Handbuch'',
+''19-Löschen von überflüssigen Bodenbedeckungsgrenzen'',
+''20-neue BB ausscheiden, BB Art ändern, BB Abgrenzung anpassen'',
+''21-fehlendes Silo / Wasserbecken / Gebäude etc.'',
+''22-fehlende Brücke/ Mast/ schm. Weg/ eing. Gewässer/ Tunnel'',
+''23-Gebäude vorhanden / unterierdisch?'',
+''24-Bodenbedeckung löschen'',
+''25-Einzelobjekt löschen'',
 ''26-Diverses''
 );
 

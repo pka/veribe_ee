@@ -37,8 +37,8 @@
   </edittypes>
   <renderer-v2 symbollevels="0" type="RuleRenderer">
     <rules key="{2cdbefb9-b625-48d7-bf4b-3e45fd704aeb}">
-      <rule filter="qualitaet_txt = 'AV93' and (( $area -0.55>&quot;flaechenmass&quot; ) or ( $area +0.55&lt; &quot;flaechenmass&quot; ) )" key="{0029f964-6608-478a-8284-7c0964a0e7c6}" symbol="0" label="AV93 / MO93"/>
-      <rule filter="qualitaet_txt &lt;> 'AV93' and (( $area -0.55> &quot;flaechenmass&quot; ) or ( $area +0.55&lt; &quot;flaechenmass&quot; ) )" key="{12bb080d-e08d-44b2-a172-424a8f28755b}" symbol="1" label="andere Qualität / autres de qualité"/>
+      <rule filter="qualitaet_txt = 'AV93' and (( $area -0.55>&quot;flaechenmass&quot; ) or ( $area +0.55&lt; &quot;flaechenmass&quot; ) )" key="{0029f964-6608-478a-8284-7c0964a0e7c6}" symbol="0" label=" AV93 / MO93"/>
+      <rule filter="qualitaet_txt &lt;> 'AV93' and (( $area -0.55> &quot;flaechenmass&quot; ) or ( $area +0.55&lt; &quot;flaechenmass&quot; ) )" key="{12bb080d-e08d-44b2-a172-424a8f28755b}" symbol="1" label="audres de qualité"/>
     </rules>
     <symbols>
       <symbol alpha="1" type="fill" name="0">

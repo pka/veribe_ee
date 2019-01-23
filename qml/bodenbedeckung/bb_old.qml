@@ -154,7 +154,7 @@
           <prop k="outline_width_unit" v="MM"/>
           <prop k="pattern_width_map_unit_scale" v="0,0"/>
           <prop k="pattern_width_unit" v="MM"/>
-          <prop k="svgFile" v="grundbuchplan/symbol_c_schilfguertel.svg"/>
+          <prop k="svgFile" v="av/grundbuchplan/symbol_c_schilfguertel.svg"/>
           <prop k="svg_outline_width_map_unit_scale" v="0,0"/>
           <prop k="svg_outline_width_unit" v="MM"/>
           <prop k="width" v="8"/>
@@ -219,7 +219,7 @@
           <prop k="outline_width_unit" v="MM"/>
           <prop k="pattern_width_map_unit_scale" v="0,0"/>
           <prop k="pattern_width_unit" v="MM"/>
-          <prop k="svgFile" v="grundbuchplan/symbol_1_fels_geroell.svg"/>
+          <prop k="svgFile" v="av/grundbuchplan/symbol_1_fels_geroell.svg"/>
           <prop k="svg_outline_width_map_unit_scale" v="0,0"/>
           <prop k="svg_outline_width_unit" v="MM"/>
           <prop k="width" v="8"/>
@@ -271,7 +271,7 @@
           <prop k="outline_width_unit" v="MM"/>
           <prop k="pattern_width_map_unit_scale" v="0,0"/>
           <prop k="pattern_width_unit" v="MM"/>
-          <prop k="svgFile" v="grundbuchplan/symbol_2_geroell.svg"/>
+          <prop k="svgFile" v="av/grundbuchplan/symbol_2_geroell.svg"/>
           <prop k="svg_outline_width_map_unit_scale" v="0,0"/>
           <prop k="svg_outline_width_unit" v="MM"/>
           <prop k="width" v="10"/>
@@ -413,7 +413,7 @@
           <prop k="outline_width_unit" v="MM"/>
           <prop k="pattern_width_map_unit_scale" v="0,0"/>
           <prop k="pattern_width_unit" v="MM"/>
-          <prop k="svgFile" v="grundbuchplan/symbol_d_moor.svg"/>
+          <prop k="svgFile" v="av/grundbuchplan/symbol_d_moor.svg"/>
           <prop k="svg_outline_width_map_unit_scale" v="0,0"/>
           <prop k="svg_outline_width_unit" v="MM"/>
           <prop k="width" v="10"/>
@@ -448,7 +448,7 @@
           <prop k="outline_width_unit" v="MM"/>
           <prop k="pattern_width_map_unit_scale" v="0,0"/>
           <prop k="pattern_width_unit" v="MM"/>
-          <prop k="svgFile" v="grundbuchplan/symbol_b_reben.svg"/>
+          <prop k="svgFile" v="av/grundbuchplan/symbol_b_reben.svg"/>
           <prop k="svg_outline_width_map_unit_scale" v="0,0"/>
           <prop k="svg_outline_width_unit" v="MM"/>
           <prop k="width" v="7"/>

@@ -1,22 +1,18 @@
- # -*- coding: utf-8 -*-
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
+# -*- coding: utf-8 -*-
+from qgis.PyQt.QtCore import *
+from qgis.PyQt.QtGui import *
+from qgis.PyQt.QtWidgets import *
 from qgis.core import *
 from qgis.gui import *
 
 import sys
 import traceback
 
-
-try:
-    _encoding = QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QApplication.translate(context, text, disambig)
-
 from veriso.modules.complexcheck_base import ComplexCheckBase
+
+
+def _translate(context, text, disambig):
+    return QApplication.translate(context, text, disambig)
 
 
 class ComplexCheck(ComplexCheckBase):
@@ -24,24 +20,28 @@ class ComplexCheck(ComplexCheckBase):
     def __init__(self, iface):
         super(ComplexCheck, self).__init__(iface)
         self.iface = iface
-        
-        self.root = QgsProject.instance().layerTreeRoot()        
 
-    def run(self):        
-        self.settings = QSettings("CatAIS","VeriSO")
+        self.root = QgsProject.instance().layerTreeRoot()
+
+    def run(self):
+        self.settings = QSettings("CatAIS",
+                                  "VeriSO")
         project_id = self.settings.value("project/id")
         epsg = self.settings.value("project/epsg")
-        
-        locale = QSettings().value('locale/userLocale')[0:2] # Für Multilingual-Legenden.
+
+        locale = QSettings().value('locale/userLocale')[0:2]  # Für Multilingual-Legenden.
 
         if not project_id:
-            self.iface.messageBar().pushMessage("Error",  _translate("VeriSO_EE_GemGrenz", "project_id not set", None), level=QgsMessageBar.CRITICAL, duration=5)                                
+            self.iface.messageBar().pushMessage(
+                "Error", _translate("VeriSO_EE_GemGrenz",
+                                    "project_id not set", None),
+                level=Qgis.Critical, duration=5)
             return
 
         QApplication.setOverrideCursor(Qt.WaitCursor)
         try:
             group = _translate("VeriSO_EE_GemGrenz", "Gemeindegrenzen", None)
-            group += " (" + str(project_id) + ")" 
+            group += " (" + str(project_id) + ")"
 
             layer = {}
             layer["type"] = "wms"
@@ -49,20 +49,21 @@ class ComplexCheck(ComplexCheckBase):
             layer["layers"] = "ch.swisstopo.swissboundaries3d-kanton-flaeche.fill"
 #            layer["crs"] = "EPSG:21781"
             layer["format"] = "image/png"
-            layer["title"] = _translate("VeriSO_EE_GemGrenz", "Kantonsgrenze", None)
+            layer["title"] = _translate("VeriSO_EE_GemGrenz", "Kantonsgrenze",
+                                        None)
             layer["group"] = group
             vlayer = self.layer_loader.load(layer, False, True)
 
             layer = {}
             layer["type"] = "wms"
-            layer["title"] = _translate("VeriSO_EE_GemGrenz", "Gemeindegrenzen-swisstopo", None)
-            layer["url"] ="http://wms.geo.admin.ch/?"            
-            layer["layers"] ="ch.swisstopo.swissboundaries3d-gemeinde-flaeche.fill"
-            layer["format"] ="image/png"
+            layer["title"] = _translate("VeriSO_EE_GemGrenz",
+                                        "Gemeindegrenzen-swisstopo", None)
+            layer["url"] = "http://wms.geo.admin.ch/?"
+            layer["layers"] = "ch.swisstopo.swissboundaries3d-gemeinde-flaeche.fill"
+            layer["format"] = "image/png"
             layer["group"] = group
 #            layer["crs"] ="EPSG:21781"
             vlayer = self.layer_loader.load(layer, False, True)
-          
 
             layer = {}
             layer["type"] = "postgres"
@@ -79,7 +80,9 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
 
-            layer["title"] = _translate("VeriSO_EE_GemGrenz", "Hoheitsgrenzpunkte unversichert", None)
+            layer["title"] = _translate("VeriSO_EE_GemGrenz",
+                                        "Hoheitsgrenzpunkte unversichert",
+                                        None)
             layer["readonly"] = True
             layer["featuretype"] = "gemeindegrenzen_hoheitsgrenzpunkt"
             layer["geom"] = "geometrie"
@@ -91,7 +94,9 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
 
-            layer["title"] = _translate("VeriSO_EE_GemGrenz", "Hoheitsgrenzpunkte nicht exakt definiert", None)
+            layer["title"] = _translate("VeriSO_EE_GemGrenz",
+                                        "Hoheitsgrenzpunkte nicht exakt definiert",
+                                        None)
             layer["readonly"] = True
             layer["featuretype"] = "gemeindegrenzen_hoheitsgrenzpunkt"
             layer["geom"] = "geometrie"
@@ -103,7 +108,9 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
 
-            layer["title"] = _translate("VeriSO_EE_GemGrenz", "Hoheitsgrenzpunkte (schoener Stein)", None)
+            layer["title"] = _translate("VeriSO_EE_GemGrenz",
+                                        "Hoheitsgrenzpunkte (schoener Stein)",
+                                        None)
             layer["readonly"] = True
             layer["featuretype"] = "gemeindegrenzen_hoheitsgrenzpunkt"
             layer["geom"] = "geometrie"
@@ -115,7 +122,9 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
 
-            layer["title"] = _translate("VeriSO_EE_GemGrenz", u"Hoheitsgrenzpunkte Zuverlässigkeit", None)
+            layer["title"] = _translate("VeriSO_EE_GemGrenz",
+                                        u"Hoheitsgrenzpunkte Zuverlässigkeit",
+                                        None)
             layer["readonly"] = True
             layer["featuretype"] = "gemeindegrenzen_hoheitsgrenzpunkt"
             layer["geom"] = "geometrie"
@@ -127,7 +136,8 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
 
-            layer["title"] = _translate("VeriSO_EE_GemGrenz", "Hoheitsgrenzpunkte Genauigkeit", None)
+            layer["title"] = _translate("VeriSO_EE_GemGrenz",
+                                        "Hoheitsgrenzpunkte Genauigkeit", None)
             layer["readonly"] = True
             layer["featuretype"] = "gemeindegrenzen_hoheitsgrenzpunkt"
             layer["geom"] = "geometrie"
@@ -140,7 +150,8 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
 
-            layer["title"] = _translate("VeriSO_EE_GemGrenz", "proj. Gemeindegrenze", None)
+            layer["title"] = _translate("VeriSO_EE_GemGrenz",
+                                        "proj. Gemeindegrenze", None)
             layer["readonly"] = True
             layer["featuretype"] = "gemeindegrenzen_projgemeindegrenze"
             layer["geom"] = "geometrie"
@@ -153,7 +164,8 @@ class ComplexCheck(ComplexCheckBase):
             layer = {}
             layer["type"] = "postgres"
 
-            layer["title"] = _translate("VeriSO_EE_GemGrenz", "Liegenschaften", None)
+            layer["title"] = _translate("VeriSO_EE_GemGrenz",
+                                        "Liegenschaften", None)
             layer["readonly"] = True
             layer["featuretype"] = "liegenschaften_liegenschaft"
             layer["geom"] = "geometrie"
@@ -164,9 +176,9 @@ class ComplexCheck(ComplexCheckBase):
             vlayer = self.layer_loader.load(layer, False, True)
 
         except Exception:
-            QApplication.restoreOverrideCursor()            
+            QApplication.restoreOverrideCursor()
             exc_type, exc_value, exc_traceback = sys.exc_info()
-            self.iface.messageBar().pushMessage("Error", str(traceback.format_exc(exc_traceback)), level=QgsMessageBar.CRITICAL, duration=5)                    
-        QApplication.restoreOverrideCursor()         
- 
-
+            self.iface.messageBar().pushMessage(
+                "Error", str(traceback.format_exc(exc_traceback)),
+                level=Qgis.Critical, duration=5)
+        QApplication.restoreOverrideCursor()

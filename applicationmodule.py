@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import, print_function
-
 from veriso.base.utils.utils import dynamic_import
 from veriso.modules.applicationmodule_base import ApplicationModuleBase
 
@@ -27,64 +25,52 @@ class ApplicationModule(ApplicationModuleBase):
             'topic': {'widget': 'Enumeration',
                       'default': 'Bodenbedeckung',
                       'alias': 'Topic:',
-                      'writable_only_by': ['agi', 'avor']
-            },
+                      'writable_only_by': ['agi', 'avor']},
             'bezeichnun': {
                 'widget': 'Enumeration',
                 'alias': 'Bezeichnung:',
-                'writable_only_by': ['agi', 'avor']
-            },
-            'abrechnung':{
+                'writable_only_by': ['agi', 'avor']},
+            'abrechnung': {
                 'widget': 'Enumeration',
                 'default': 'PNF',
                 'alias': 'Abrechnung:',
-                'writable_only_by': ['agi', 'avor']
-            },
+                'writable_only_by': ['agi', 'avor']},
             'bem_avor': {
                 'widget': 'TextEdit',
                 'alias': 'Bemerkung AVOR:',
                 'config': {"IsMultiline": True},
-                'writable_only_by': ['agi', 'avor']
-            },
+                'writable_only_by': ['agi', 'avor']},
             'datum': {'widget': 'Hidden'},
             'bem_nfg': {
                 'widget': 'TextEdit',
                 'alias': 'Bemerkung NFG:',
                 'config': {"IsMultiline": True},
-                'writable_only_by': ['agi', 'geometer']
-            },
+                'writable_only_by': ['agi', 'geometer']},
             'forstorgan': {
                 'widget': 'Enumeration',
                 'alias': 'Forstorgan:',
-                'writable_only_by': ['agi', 'forst']
-            },
+                'writable_only_by': ['agi', 'forst']},
             'bem_forst': {
                 'widget': 'TextEdit',
                 'alias': 'Bemerkung Forst:',
                 'config': {"IsMultiline": True},
-                'writable_only_by': ['agi', 'forst']
-            },
+                'writable_only_by': ['agi', 'forst']},
             'verifikati': {
                 'widget': 'Enumeration',
                 'alias': 'Verifikation:',
-                'writable_only_by': ['agi']
-            },
+                'writable_only_by': ['agi']},
             'bem_verifi': {
                 'widget': 'TextEdit',
                 'alias': 'Bemerkung Verifikation:',
                 'config': {"IsMultiline": True},
-                'writable_only_by': ['agi']
-            },
+                'writable_only_by': ['agi']},
             'erledigt': {
                 'widget': 'CheckBox',
                 'alias': 'Erledigt:',
                 'config': {
                     'CheckedState': 't',
-                    'UncheckedState': 'f'
-                },
-                'writable_only_by': ['agi']
-            }
-        }
+                    'UncheckedState': 'f'},
+                'writable_only_by': ['agi']}}
 
         d.layers['point']['fields'] = fields
         d.layers['line']['fields'] = fields

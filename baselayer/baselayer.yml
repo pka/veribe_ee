@@ -4,7 +4,7 @@ baselayer:
   title:
     de: Fixpunkte vom FPDS
     fr: Point fix (FPDS)
-  url: https://wms.geo.admin.ch/?
+  url: http://wms.geo.admin.ch/?
   layers: ch.swisstopo.fixpunkte-lfp1,ch.swisstopo.fixpunkte-lfp2,ch.swisstopo.fixpunkte-hfp1,ch.swisstopo.fixpunkte-hfp2
   format: image/png
 - type: wms
@@ -19,7 +19,7 @@ baselayer:
     de: Bauzonen UZP
     fr: 'Zones à bâtir UZP '
   url: https://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_planungwms_d_fk/MapServer/WMSServer?
-  layers: GEODB.UZP_BAU
+  layers: GEODB.UZP_BAU_det
   format: image/png
 - type: wms
   title:
@@ -39,14 +39,16 @@ baselayer:
   title:
     de: GWR
     fr: GWR
-  url: https://wms.geo.admin.ch/?
+  url: http://wms.geo.admin.ch/?
   layers: ch.bfs.gebaeude_wohnungs_register
   format: image/png
 - type: wms
   title:
     de: swissimage (50%)
     fr: swissimage (50%)
-  url: https://wms.swisstopo.admin.ch/?
+  url: http://wms.swisstopo.admin.ch/wss/httpauth/swisstopowms?
+  username: nikolaus.graessle@bve.be.ch
+  password: veriso
   layers: ch.swisstopo.swissimage
   format: image/jpeg
   style: baselayer/swissimage_50.qml
@@ -54,14 +56,14 @@ baselayer:
   title:
     de: swissimage (100%)
     fr: swissimage (100%)
-  url: https://wms.swisstopo.admin.ch/?
+  url: http://wms.swisstopo.admin.ch/wss/httpauth/swisstopowms?
   layers: ch.swisstopo.swissimage
   format: image/jpeg
 - type: wms
   title:
     de: PK25
     fr: PK25
-  url: https://wms.swisstopo.admin.ch/?
+  url: http://wms.swisstopo.admin.ch/wss/httpauth/swisstopowms?
   layers: ch.swisstopo.pixelkarte-farbe
   format: image/jpeg
   style: baselayer/swissimage_50.qml
@@ -69,7 +71,9 @@ baselayer:
   title:
     de: Relief (swisstopo)
     fr: Relief (swisstopo)
-  url: https://wms.swisstopo.admin.ch/?
+  url: http://wms.swisstopo.admin.ch/wss/httpauth/swisstopowms?
+  username: nikolaus.graessle@bve.be.ch
+  password: veriso
   layers: ch.swisstopo.swissalti3d-reliefschattierung
   format: image/jpeg
   style: baselayer/swissimage_50.qml
@@ -77,7 +81,9 @@ baselayer:
   title:
     de: TLM
     fr: TLM
-  url: https://wms.swisstopo.admin.ch/?
+  url: http://wms.swisstopo.admin.ch/wss/httpauth/swisstopowms?
+  username: nikolaus.graessle@bve.be.ch
+  password: veriso
   layers: ch.swisstopo.swisstlm3d-karte-farbe
   format: image/jpeg
   style: baselayer/swissimage_50.qml
@@ -176,14 +182,13 @@ baselayer:
   title:
     de: PLZ Ortschaft
     fr: MO Adresse postale
-  url: https://wms.geo.admin.ch/?
+  url: http://wms.geo.admin.ch/?
   layers: ch.swisstopo-vd.ortschaftenverzeichnis_plz
   format: image/jpeg
-- type: wms
   title:
     de: Orthophoto Region Bern
     fr: Orthophoto Région Berne
-  url: https://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_verisowms_d_fk/MapServer/WMSServer?
+  url: http://www.geoservice.apps.be.ch/geoservice2/services/a42geo/a42geo_verisowms_d_fk/MapServer/WMSServer?
   layers: GEODB.OBERN_OBERN_MOSAIC
   format: image/png
 - type: wms
